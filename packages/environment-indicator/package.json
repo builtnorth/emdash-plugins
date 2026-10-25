@@ -1,6 +1,6 @@
 {
   "name": "@kitaris/emdash-environment-indicator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An EmDash plugin that shows which environment a site is (development, staging or production) on the dashboard.",
   "license": "GPL-2.0-or-later",
   "repository": {
