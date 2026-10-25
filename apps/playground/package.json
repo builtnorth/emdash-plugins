@@ -1,0 +1,22 @@
+{
+  "name": "playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4331",
+    "build": "astro build",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.5",
+    "@astrojs/react": "^7.0.0",
+    "@kitaris/emdash-environment-indicator": "workspace:*",
+    "astro": "^7.3.2",
+    "emdash": "1.3.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10"
+  }
+}

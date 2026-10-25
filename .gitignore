@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite
+uploads/
+.DS_Store
+e2e-output/

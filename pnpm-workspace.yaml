@@ -1,0 +1,17 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+
+# Build scripts: allow only what each runtime needs (from the EmDash template).
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: false
+
+# Supply-chain hardening: cooldown on brand-new releases (EmDash exempt)
+# and no non-registry transitive sources.
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - emdash
+  - "@emdash-cms/*"
+blockExoticSubdeps: true
