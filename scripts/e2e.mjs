@@ -50,17 +50,17 @@ try {
 	step("environment indicator: the dashboard widget");
 	await settings({ "Staging hostnames": "", "Production hostnames": "", "Development hostnames": "" });
 	let text = await widget();
-	check(text.includes("Development") && text.includes("localhost is a local address"), `localhost is development (${text})`);
+	check(text.includes("Development") && text.includes("Nothing you do here reaches the live site") && text.includes("localhost is in the common local hostnames"), `localhost is development (${text})`);
 	await page.screenshot({ path: `${out}/environment-development.png` });
 
 	step("hostnames from the plugin's settings");
 	await settings({ "Staging hostnames": "localhost" });
 	text = await widget();
-	check(text.includes("Staging") && text.includes("localhost is listed in the plugin's settings"), `a hostname listed as staging is staging (${text})`);
+	check(text.includes("Staging") && text.includes("Pre-release copy") && text.includes("localhost is in Staging hostnames"), `a hostname listed as staging is staging (${text})`);
 	await page.screenshot({ path: `${out}/environment-staging.png` });
 	await settings({ "Production hostnames": "localhost" });
 	text = await widget();
-	check(text.includes("Production") && text.includes("This is the live site"), `production hostnames come first (${text})`);
+	check(text.includes("Production") && text.includes("Published changes are public immediately") && text.includes("localhost is in Production hostnames"), `production hostnames come first (${text})`);
 	await page.screenshot({ path: `${out}/environment-production.png` });
 
 	await settings({ "Staging hostnames": "", "Production hostnames": "" });

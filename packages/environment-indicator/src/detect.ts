@@ -18,6 +18,8 @@ export interface Detection {
 	environment: Environment;
 	/** How it was decided, for the widget to say. */
 	source: "variable" | "hostname" | "local hostname" | "default";
+	/** What matched: the variable's value, or the hostname pattern. Absent for "default". */
+	match?: string;
 }
 
 /** Hostnames that are local unless configured otherwise. */
@@ -61,11 +63,13 @@ export function matchesHost(hostname: string, pattern: string): boolean {
  */
 export function detectEnvironment({ variable, hostname, rules = {} }: { variable?: string; hostname: string; rules?: HostRules }): Detection {
 	const named = environmentFromVariable(variable);
-	if (named) return { environment: named, source: "variable" };
+	if (named && variable) return { environment: named, source: "variable", match: variable.trim() };
 	const host = hostname.toLowerCase();
 	for (const environment of ["production", "staging", "development"] as const) {
-		if (parsePatterns(rules[environment]).some((pattern) => matchesHost(host, pattern))) return { environment, source: "hostname" };
+		const match = parsePatterns(rules[environment]).find((pattern) => matchesHost(host, pattern));
+		if (match) return { environment, source: "hostname", match };
 	}
-	if (LOCAL_HOSTS.some((pattern) => matchesHost(host, pattern))) return { environment: "development", source: "local hostname" };
+	const local = LOCAL_HOSTS.find((pattern) => matchesHost(host, pattern));
+	if (local) return { environment: "development", source: "local hostname", match: local };
 	return { environment: "production", source: "default" };
 }
