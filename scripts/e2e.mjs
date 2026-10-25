@@ -50,17 +50,18 @@ try {
 	step("environment indicator: the dashboard widget");
 	await settings({ "Staging hostnames": "", "Production hostnames": "", "Development hostnames": "" });
 	let text = await widget();
-	check(text.includes("Development") && text.includes("localhost, a local address"), `localhost is development (${text.slice(0, 90)})`);
+	check(text.includes("Development") && text.includes("localhost is a local address"), `localhost is development (${text})`);
 	await page.screenshot({ path: `${out}/environment-development.png` });
 
 	step("hostnames from the plugin's settings");
 	await settings({ "Staging hostnames": "localhost" });
 	text = await widget();
-	check(text.includes("Staging") && text.includes("in the plugin's settings"), "a hostname listed as staging is staging");
+	check(text.includes("Staging") && text.includes("localhost is listed in the plugin's settings"), `a hostname listed as staging is staging (${text})`);
 	await page.screenshot({ path: `${out}/environment-staging.png` });
 	await settings({ "Production hostnames": "localhost" });
 	text = await widget();
-	check(text.includes("Production") && text.includes("Changes here are what visitors see"), "production hostnames come first");
+	check(text.includes("Production") && text.includes("This is the live site"), `production hostnames come first (${text})`);
+	await page.screenshot({ path: `${out}/environment-production.png` });
 
 	await settings({ "Staging hostnames": "", "Production hostnames": "" });
 	check(errors.length === 0, `no page errors${errors.length ? `: ${errors.join(" | ")}` : ""}`);
